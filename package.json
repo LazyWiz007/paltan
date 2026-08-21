@@ -8,6 +8,7 @@
     "start": "next start -p 3020"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "next": "15.5.23",
     "react": "19.0.0",
     "react-dom": "19.0.0",
