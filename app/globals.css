@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens — read off the Introvert to Icon course poster.
+   Gold is action. Blue is atmosphere. They never mix inside one element.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-stage: #0b0a12;
+  --color-stage-2: #15131f;
+  --color-stage-3: #1e1b2b;
+  --color-gold: #ffc01e;
+  --color-gold-deep: #f5a300;
+  --color-mist: #b9b4c7;
+  --color-beam: #4a5fd9;
+  /* Readable variant. The atmosphere blue is too dark to set text in. */
+  --color-beam-lit: #93a4ff;
+
+  --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--font-sacramento), cursive;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: dark;
+  /* Spotlight position, updated by components/Spotlight.tsx */
+  --mx: 50%;
+  --my: 24%;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-stage);
+  color: #ffffff;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  /* The auditorium: one cool wash from the top-left, like the poster's rig light */
+  background-image:
+    radial-gradient(120vw 80vh at 12% -10%, rgba(74, 95, 217, 0.22), transparent 60%),
+    radial-gradient(90vw 60vh at 88% 108%, rgba(245, 163, 0, 0.09), transparent 65%);
+  background-attachment: fixed;
+}
+
+/* --- Type roles ----------------------------------------------------------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+/* The poster uses script for exactly one word. So do we. */
+.script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* --- The glow ------------------------------------------------------------- */
+/* The poster's type sits in light rather than on a background. Layered
+   shadows at increasing radius read as bloom; a single shadow reads as a
+   drop shadow. */
+
+.glow-gold {
+  text-shadow:
+    0 0 18px rgba(255, 192, 30, 0.55),
+    0 0 46px rgba(255, 192, 30, 0.3),
+    0 0 90px rgba(245, 163, 0, 0.18);
+}
+
+.glow-white {
+  text-shadow:
+    0 0 20px rgba(255, 214, 120, 0.5),
+    0 0 52px rgba(255, 192, 30, 0.28),
+    0 0 100px rgba(245, 163, 0, 0.16);
+}
+
+/* --- Surfaces ------------------------------------------------------------- */
+
+.panel {
+  background: linear-gradient(
+    180deg,
+    rgba(30, 27, 43, 0.9) 0%,
+    rgba(21, 19, 31, 0.9) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+}
+
+/* --- Focus ---------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* --- Motion --------------------------------------------------------------- */
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes flood {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(3.4);
+  }
+}
+
+/* Slow push in on the hero frames. Small numbers on purpose -- anything
+   larger reads as a slideshow effect rather than a room you are standing in. */
+@keyframes kenburns {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.13) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(6vw, 4vh, 0);
+  }
+}
+
+.rise {
+  animation: riseIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
